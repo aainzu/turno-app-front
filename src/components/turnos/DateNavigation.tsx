@@ -1,17 +1,17 @@
-import { component$ } from '@builder.io/qwik';
+import { component$, type QRL } from '@builder.io/qwik';
 import { Button } from '../ui/Button';
 import { formatDateForDisplay } from '../../lib/utils/date';
 
 export type DateNavigationProps = {
   currentDate: Date | any; // Puede ser Date o LocalizedDate
-  onPrevious$: () => void;
-  onNext$: () => void;
-  onToday$: () => void;
+  onPrevious$: QRL<() => void>;
+  onNext$: QRL<() => void>;
+  onToday$: QRL<() => void>;
   previousLabel?: string;
   nextLabel?: string;
   showTodayButton?: boolean;
   compact?: boolean;
-  className?: string;
+  class?: string;
 };
 
 export const DateNavigation = component$<DateNavigationProps>(({
@@ -23,7 +23,7 @@ export const DateNavigation = component$<DateNavigationProps>(({
   nextLabel = 'Siguiente',
   showTodayButton = true,
   compact = false,
-  className = ''
+  class: className = ''
 }) => {
   const formattedDate = formatDateForDisplay(currentDate);
 

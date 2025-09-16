@@ -1,7 +1,6 @@
 import { component$, $ } from "@builder.io/qwik";
 import { routeLoader$, useNavigate } from "@builder.io/qwik-city";
 import { MainLayout } from "../../components/layout/MainLayout";
-import { TurnoCard } from "../../components/turnos/TurnoCard";
 import { DateNavigation } from "../../components/turnos/DateNavigation";
 import { getLocalizedDate, getCalendarDates, LocalizedDate } from "../../lib/utils/date";
 import { turnosService } from "../../lib/services/turnos.service";
@@ -147,7 +146,7 @@ export default component$(() => {
           onToday$={navigateToCurrentMonth}
           previousLabel="Mes anterior"
           nextLabel="Mes siguiente"
-          className="!hidden md:!flex"
+          class="!hidden md:!flex"
         />
 
         {monthData.value.error ? (
@@ -182,7 +181,7 @@ export default component$(() => {
 
             {/* Grid del calendario */}
             <div class="grid grid-cols-7">
-              {monthData.value.dates.map((date, index) => {
+              {monthData.value.dates.map((date) => {
                 const isCurrentMonth = date.year === monthData.value.monthStart.year &&
                   date.month === monthData.value.monthStart.month;
                 // Verificar si es el día actual real (hoy)

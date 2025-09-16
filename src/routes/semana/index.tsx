@@ -122,7 +122,7 @@ export default component$(() => {
           onToday$={navigateToCurrentWeek}
           previousLabel="Semana anterior"
           nextLabel="Semana siguiente"
-          className="!hidden md:!flex"
+          class="!hidden md:!flex"
         />
 
         {weekData.value.error ? (
@@ -143,7 +143,7 @@ export default component$(() => {
           </div>
         ) : (
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-3 md:gap-4 px-1 md:px-0">
-            {weekData.value.weekDates.map((date, index) => {
+            {weekData.value.weekDates.map((date) => {
               const turnoData = weekData.value.turnos.find(t => t.fecha === date.formatISO);
               return (
                 <TurnoCard

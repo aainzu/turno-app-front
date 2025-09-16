@@ -1,4 +1,4 @@
-import { component$, JSXChildren, Slot } from '@builder.io/qwik';
+import { component$, Slot } from '@builder.io/qwik';
 
 export type ChipProps = {
   variant?: 'manana' | 'tarde' | 'noche' | 'libre' | 'default';

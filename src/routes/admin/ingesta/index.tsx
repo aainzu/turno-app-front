@@ -7,13 +7,15 @@ import type { DocumentHead } from "@builder.io/qwik-city";
 
 // Estado para el archivo seleccionado
 const useFileState = () => {
-  const selectedFile = useSignal<File | null>(null);
+  const selectedFileName = useSignal<string>('');
+  const selectedFileSize = useSignal<number>(0);
   const isUploading = useSignal(false);
   const uploadResult = useSignal<any>(null);
   const error = useSignal<string | null>(null);
 
   return {
-    selectedFile,
+    selectedFileName,
+    selectedFileSize,
     isUploading,
     uploadResult,
     error,
@@ -77,22 +79,29 @@ export default component$(() => {
     const file = target.files?.[0];
 
     if (file) {
+      // Extract file properties for serialization
+      const fileName = file.name;
+      const fileSize = file.size;
+
       // Validar tipo de archivo
-      if (!file.name.toLowerCase().endsWith('.xlsx')) {
+      if (!fileName.toLowerCase().endsWith('.xlsx')) {
         fileState.error.value = 'Solo se permiten archivos Excel (.xlsx)';
-        fileState.selectedFile.value = null;
+        fileState.selectedFileName.value = '';
+        fileState.selectedFileSize.value = 0;
         return;
       }
 
       // Validar tamaño (5MB máximo)
       const maxSize = 5 * 1024 * 1024;
-      if (file.size > maxSize) {
+      if (fileSize > maxSize) {
         fileState.error.value = 'El archivo es demasiado grande (máximo 5MB)';
-        fileState.selectedFile.value = null;
+        fileState.selectedFileName.value = '';
+        fileState.selectedFileSize.value = 0;
         return;
       }
-
-      fileState.selectedFile.value = file;
+      
+      fileState.selectedFileName.value = fileName;
+      fileState.selectedFileSize.value = fileSize;
       fileState.error.value = null;
     }
   });
@@ -121,7 +130,7 @@ export default component$(() => {
                 <div class="space-y-4">
                   <div>
                     <label
-                      htmlFor="file-upload"
+                      for="file-upload"
                       class="block text-sm font-medium text-gray-700 mb-2"
                     >
                       Archivo Excel (.xlsx)
@@ -144,7 +153,7 @@ export default component$(() => {
                         </svg>
                         <div class="flex text-sm text-gray-600">
                           <label
-                            htmlFor="file-upload"
+                            for="file-upload"
                             class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
                           >
                             <span>Seleccionar archivo</span>
@@ -164,7 +173,7 @@ export default component$(() => {
                     </div>
                   </div>
 
-                  {fileState.selectedFile.value && (
+                  {fileState.selectedFileName.value && (
                     <div class="bg-green-50 border border-green-200 rounded-md p-3">
                       <div class="flex">
                         <div class="flex-shrink-0">
@@ -174,10 +183,10 @@ export default component$(() => {
                         </div>
                         <div class="ml-3">
                           <p class="text-sm font-medium text-green-800">
-                            Archivo seleccionado: {fileState.selectedFile.value.name}
+                            Archivo seleccionado: {fileState.selectedFileName.value}
                           </p>
                           <p class="text-sm text-green-700">
-                            Tamaño: {(fileState.selectedFile.value.size / 1024 / 1024).toFixed(2)} MB
+                            Tamaño: {(fileState.selectedFileSize.value / 1024 / 1024).toFixed(2)} MB
                           </p>
                         </div>
                       </div>
@@ -204,7 +213,7 @@ export default component$(() => {
                     type="submit"
                     fullWidth
                     loading={fileState.isUploading.value}
-                    disabled={!fileState.selectedFile.value || fileState.isUploading.value}
+                    disabled={!fileState.selectedFileName.value || fileState.isUploading.value}
                   >
                     {fileState.isUploading.value ? 'Procesando...' : 'Subir y Procesar'}
                   </Button>

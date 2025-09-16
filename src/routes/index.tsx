@@ -3,7 +3,6 @@ import { routeLoader$, useNavigate } from "@builder.io/qwik-city";
 import { MainLayout } from "../components/layout/MainLayout";
 import { TurnoCard } from "../components/turnos/TurnoCard";
 import { DateNavigation } from "../components/turnos/DateNavigation";
-import { SkeletonCard } from "../components/ui/Skeleton";
 import { getLocalizedDate, LocalizedDate } from "../lib/utils/date";
 import { turnosService } from "../lib/services/turnos.service";
 import type { DocumentHead } from "@builder.io/qwik-city";
@@ -109,7 +108,7 @@ export default component$(() => {
           onToday$={navigateToToday}
           previousLabel="Día anterior"
           nextLabel="Día siguiente"
-          className="!hidden md:!flex"
+          class="!hidden md:!flex"
         />
 
         <div class="space-y-6">

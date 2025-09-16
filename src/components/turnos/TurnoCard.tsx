@@ -14,8 +14,7 @@ export type TurnoCardProps = {
 export const TurnoCard = component$<TurnoCardProps>(({
   turno,
   fecha,
-  showDate = true,
-  compact = false
+  showDate = true
 }) => {
   // Parsear fecha para formateo
   const fechaObj = typeof fecha === 'string'
