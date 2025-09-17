@@ -54,3 +54,7 @@ lerna-debug.log*
 # Firebase
 functions/server
 functions/node_modules
+
+# Azure
+/azure-functions/**
+!/azure-functions/host.json
