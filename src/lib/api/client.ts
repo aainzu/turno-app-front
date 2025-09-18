@@ -46,11 +46,22 @@ class ApiClient {
 
   private get baseUrl(): string {
     if (!this._baseUrl) {
-      // Use environment variable or default to localhost
-      // This is accessed lazily to avoid SSR issues with import.meta.env
-      this._baseUrl = import.meta.env?.VITE_API_URL || 'http://localhost:3001/api';
+      // Runtime environment variable resolution for SSR and client
+      let apiUrl: string;
+      
+      // Check if we're in Node.js environment (SSR)
+      if (typeof process !== 'undefined' && process.env) {
+        // Server-side: use process.env (available at runtime in Azure App Service)
+        apiUrl = process.env.VITE_API_URL || 'http://localhost:3001/api';
+      } else {
+        // Client-side: use import.meta.env (build-time resolution)
+        apiUrl = import.meta.env?.VITE_API_URL || 'http://localhost:3001/api';
+      }
+      
+      this._baseUrl = apiUrl;
+      console.log('API Client initialized with baseUrl:', this._baseUrl);
     }
-    return this._baseUrl!;
+    return this._baseUrl;
   }
 
   private async request<T>(
