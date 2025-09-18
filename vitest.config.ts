@@ -11,6 +11,22 @@ export default defineConfig(() => {
       globals: true,
       environment: 'jsdom',
       setupFiles: ['./src/test-setup.ts'],
+      // Memory optimization settings
+      pool: 'forks',
+      poolOptions: {
+        forks: {
+          singleFork: true, // Use single process to reduce memory usage
+          isolate: false,   // Don't isolate modules between tests
+        },
+      },
+      // Disable coverage collection by default to save memory
+      coverage: {
+        enabled: false,
+      },
+      // Force exit after tests to prevent hanging
+      forceRerunTriggers: ['**/vitest.config.*', '**/vite.config.*'],
+      // Optimize file watching
+      watchExclude: ['**/node_modules/**', '**/dist/**'],
     },
   };
 });

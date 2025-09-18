@@ -22,10 +22,10 @@
     "preview": "qwik build preview && vite preview --open",
     "serve": "node server/entry.express",
     "start": "vite --open --mode ssr",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test:run": "vitest run",
-    "test:ui": "vitest --ui",
+    "test": "node --max-old-space-size=4096 node_modules/vitest/vitest.mjs",
+    "test:coverage": "node --max-old-space-size=4096 node_modules/vitest/vitest.mjs run --coverage",
+    "test:run": "node --max-old-space-size=4096 node_modules/vitest/vitest.mjs run",
+    "test:ui": "node --max-old-space-size=4096 node_modules/vitest/vitest.mjs --ui",
     "qwik": "qwik"
   },
   "devDependencies": {
