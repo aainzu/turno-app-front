@@ -46,20 +46,21 @@ class ApiClient {
 
   private get baseUrl(): string {
     if (!this._baseUrl) {
-      // Runtime environment variable resolution for SSR and client
       let apiUrl: string;
       
-      // Check if we're in Node.js environment (SSR)
       if (typeof process !== 'undefined' && process.env) {
-        // Server-side: use process.env (available at runtime in Azure App Service)
         apiUrl = process.env.VITE_API_URL || 'http://localhost:3001/api';
       } else {
-        // Client-side: use import.meta.env (build-time resolution)
         apiUrl = import.meta.env?.VITE_API_URL || 'http://localhost:3001/api';
       }
       
       this._baseUrl = apiUrl;
       console.log('API Client initialized with baseUrl:', this._baseUrl);
+      console.log('Environment check:', {
+        isServer: typeof process !== 'undefined',
+        processEnv: typeof process !== 'undefined' ? process.env?.VITE_API_URL : 'N/A',
+        importMetaEnv: import.meta.env?.VITE_API_URL
+      });
     }
     return this._baseUrl;
   }
@@ -79,7 +80,7 @@ class ApiClient {
         ...options,
       });
 
-      console.log('RESPONSE: ' + JSON.stringify(response));
+      console.log('RESPONSE: ' + response);
 
       const data = await response.json();
 
@@ -91,8 +92,16 @@ class ApiClient {
       }
 
       return { data };
-    } catch (error) {
+    } catch (error : any) {
       console.error('API request failed:', error);
+      // Log more details about the error
+      console.error('URL:', `${this.baseUrl}${endpoint}`);
+      console.error('Error details:', {
+        code: error.code,
+        message: error.message,
+        stack: error.stack
+      });
+      
       return {
         error: 'Error de conexión con el servidor',
         message: error instanceof Error ? error.message : 'Error desconocido',
