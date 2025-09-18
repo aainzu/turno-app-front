@@ -21,7 +21,7 @@
     "lint": "eslint \"src/**/*.ts*\"",
     "preview": "qwik build preview && vite preview --open",
     "serve": "node server/entry.express",
-    "start": "vite --open --mode ssr",
+    "start": "npm run serve",
     "test": "node --max-old-space-size=4096 node_modules/vitest/vitest.mjs",
     "test:coverage": "node --max-old-space-size=4096 node_modules/vitest/vitest.mjs run --coverage",
     "test:run": "node --max-old-space-size=4096 node_modules/vitest/vitest.mjs run",
@@ -38,8 +38,6 @@
     "@types/express": "^4.17.19",
     "@types/node": "20.19.0",
     "autoprefixer": "^10.4.21",
-    "compression": "^1.7.4",
-    "dotenv": "^16.3.2",
     "eslint": "9.32.0",
     "eslint-plugin-qwik": "^1.16.0",
     "globals": "16.3.0",
@@ -57,6 +55,8 @@
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.5.1",
+    "compression": "^1.7.4",
+    "dotenv": "^16.3.2",
     "express": "4.20.0",
     "zod": "^4.1.5"
   }
