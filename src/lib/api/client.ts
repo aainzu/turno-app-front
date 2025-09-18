@@ -38,11 +38,19 @@ export interface TurnoStats {
 }
 
 class ApiClient {
-  private baseUrl: string;
+  private _baseUrl: string | undefined;
 
   constructor() {
-    // Use environment variable or default to localhost
-    this.baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+    // Defer environment variable access to avoid SSR issues
+  }
+
+  private get baseUrl(): string {
+    if (!this._baseUrl) {
+      // Use environment variable or default to localhost
+      // This is accessed lazily to avoid SSR issues with import.meta.env
+      this._baseUrl = import.meta.env?.VITE_API_URL || 'http://localhost:3001/api';
+    }
+    return this._baseUrl!;
   }
 
   private async request<T>(
