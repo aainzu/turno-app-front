@@ -29,7 +29,7 @@ jobs:
           npm run build
         env:
           # Set build-time environment variables (optional, runtime resolution is primary)
-          VITE_API_URL: ${{ vars.VITE_API_URL || '' }}
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4

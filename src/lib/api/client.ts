@@ -79,6 +79,8 @@ class ApiClient {
         ...options,
       });
 
+      console.log('RESPONSE: ' + JSON.stringify(response));
+
       const data = await response.json();
 
       if (!response.ok) {
